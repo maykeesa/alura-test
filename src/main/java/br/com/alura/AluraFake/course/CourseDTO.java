@@ -2,13 +2,13 @@ package br.com.alura.AluraFake.course;
 
 import jakarta.validation.constraints.Email;
 import jakarta.validation.constraints.NotBlank;
-import jakarta.validation.constraints.NotNull;
-import lombok.AllArgsConstructor;
 import lombok.Data;
-import lombok.RequiredArgsConstructor;
 import org.hibernate.validator.constraints.Length;
 
 import java.io.Serializable;
+
+import static br.com.alura.AluraFake.util.Constants.MessageValidation.MSG_EMAIL_INVALID;
+import static br.com.alura.AluraFake.util.Constants.MessageValidation.MSG_NOT_NULL_OR_EMPTY;
 
 public class CourseDTO {
 
@@ -16,13 +16,15 @@ public class CourseDTO {
 
         @Data
         public static class Register{
-            @NotBlank(message = )
+            @NotBlank(message = MSG_NOT_NULL_OR_EMPTY)
             private String title;
-            @NotBlank(message = )
-            @Length(min = 4, max = 255)
+
+            @NotBlank(message = MSG_NOT_NULL_OR_EMPTY)
+            @Length(min = 4, max = 255, message = "The field must contain between 4 and 255 characters")
             private String description;
-            @NotBlank(message = )
-            @Email(message = )
+
+            @NotBlank(message = MSG_NOT_NULL_OR_EMPTY)
+            @Email(message = MSG_EMAIL_INVALID)
             private String emailInstructor;
         }
 

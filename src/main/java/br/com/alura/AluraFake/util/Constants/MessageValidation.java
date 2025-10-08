@@ -1,0 +1,11 @@
+package br.com.alura.AluraFake.util.Constants;
+
+public class MessageValidation {
+
+    public static final String MSG_NOT_NULL_OR_EMPTY = "It cannot be null or empty.";
+    public static final String MSG_NOT_NULL = "It cannot be null.";
+    public static final String MSG_NOT_EMPTY = "It cannot be empty.";
+    public static final String MSG_POSITIVE = "The value must be positive.";
+    public static final String MSG_EMAIL_INVALID = "The value passed must be an email address: example@mail.com";
+    public static final String MSG_DATE_PATTERN_INVALID = "Incorrect date format, example format: yyyy-MM-dd";
+}

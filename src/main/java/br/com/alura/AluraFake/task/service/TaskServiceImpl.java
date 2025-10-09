@@ -21,7 +21,7 @@ public class TaskServiceImpl implements TaskService{
     private final TaskServiceHelper taskServiceHelper;
 
     @Override
-    public TaskDTO.Response.OpenText newOpenTextExercise(TaskDTO.Request.Task body) {
+    public TaskDTO.Response.OpenText newOpenTextExercise(TaskDTO.Request.OpenText body) {
         Course course = taskServiceHelper.getCourseForNewTask(body.getCourseId());
         List<Task> tasks = taskRepository.findByCourseOrderByOrderAsc(course);
 

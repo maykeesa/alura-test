@@ -4,5 +4,5 @@ import br.com.alura.AluraFake.task.dto.TaskDTO;
 
 public interface TaskService {
 
-    TaskDTO.Response.OpenText newOpenTextExercise(TaskDTO.Request.Task body);
+    TaskDTO.Response.OpenText newOpenTextExercise(TaskDTO.Request.OpenText body);
 }

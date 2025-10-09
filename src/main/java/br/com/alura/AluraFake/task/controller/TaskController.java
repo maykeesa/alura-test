@@ -19,7 +19,7 @@ public class TaskController {
     private final TaskService taskService;
 
     @PostMapping("/new/opentext")
-    public ResponseEntity<TaskDTO.Response.OpenText> newOpenTextExercise(@RequestBody @Valid TaskDTO.Request.Task body) {
+    public ResponseEntity<TaskDTO.Response.OpenText> newOpenTextExercise(@RequestBody @Valid TaskDTO.Request.OpenText body) {
         return ResponseEntity.status(HttpStatus.CREATED).body(taskService.newOpenTextExercise(body));
     }
 

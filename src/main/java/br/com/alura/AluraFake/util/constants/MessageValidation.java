@@ -1,4 +1,4 @@
-package br.com.alura.AluraFake.util.Constants;
+package br.com.alura.AluraFake.util.constants;
 
 public class MessageValidation {
 

@@ -49,13 +49,13 @@ public class CourseController {
         return ResponseEntity.status(HttpStatus.CREATED).build();
     }
 
-    @GetMapping("/course/all")
-    public ResponseEntity<List<CourseDTO.Response.Course>> createCourse() {
-        List<CourseDTO.Response.Course> courses = courseRepository.findAll().stream()
-                .map(CourseDTO.Response.Course::new)
-                .toList();
-        return ResponseEntity.ok(courses);
-    }
+//    @GetMapping("/course/all")
+//    public ResponseEntity<List<CourseDTO.Response.Course>> createCourse() {
+//        List<CourseDTO.Response.Course> courses = courseRepository.findAll().stream()
+//                .map(CourseDTO.Response.Course::new)
+//                .toList();
+//        return ResponseEntity.ok(courses);
+//    }
 
     @PostMapping("/course/{id}/publish")
     public ResponseEntity createCourse(@PathVariable("id") Long id) {

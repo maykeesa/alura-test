@@ -7,8 +7,8 @@ import org.hibernate.validator.constraints.Length;
 
 import java.io.Serializable;
 
-import static br.com.alura.AluraFake.util.Constants.MessageValidation.MSG_EMAIL_INVALID;
-import static br.com.alura.AluraFake.util.Constants.MessageValidation.MSG_NOT_NULL_OR_EMPTY;
+import static br.com.alura.AluraFake.util.constants.MessageValidation.MSG_EMAIL_INVALID;
+import static br.com.alura.AluraFake.util.constants.MessageValidation.MSG_NOT_NULL_OR_EMPTY;
 
 public class CourseDTO {
 
@@ -39,12 +39,12 @@ public class CourseDTO {
             private String description;
             private Status status;
 
-            public Course(br.com.alura.AluraFake.course.Course course){
-                this.id = course.getId();
-                this.title = course.getTitle();
-                this.description = course.getDescription();
-                this.status = course.getStatus();
-            }
+//            public Course(br.com.alura.AluraFake.course.Course course){
+//                this.id = course.getId();
+//                this.title = course.getTitle();
+//                this.description = course.getDescription();
+//                this.status = course.getStatus();
+//            }
         }
     }
 }

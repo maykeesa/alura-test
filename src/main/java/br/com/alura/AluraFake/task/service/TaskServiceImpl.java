@@ -1,13 +1,11 @@
 package br.com.alura.AluraFake.task.service;
 
 import br.com.alura.AluraFake.course.Course;
-import br.com.alura.AluraFake.course.CourseDTO;
 import br.com.alura.AluraFake.task.dto.TaskDTO;
 import br.com.alura.AluraFake.task.enums.Type;
 import br.com.alura.AluraFake.task.model.Task;
 import br.com.alura.AluraFake.task.repository.TaskRepository;
 import br.com.alura.AluraFake.task.service.helper.TaskServiceHelper;
-import br.com.alura.AluraFake.util.service.MapperServiceUtil;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 
@@ -21,26 +19,47 @@ public class TaskServiceImpl implements TaskService{
     private final TaskServiceHelper taskServiceHelper;
 
     @Override
-    public TaskDTO.Response.OpenText newOpenTextExercise(TaskDTO.Request.OpenText body) {
+    public TaskDTO.Response.Tasks newOpenTextExercise(TaskDTO.Request.OpenText body) {
         Course course = taskServiceHelper.getCourseForNewTask(body.getCourseId());
         List<Task> tasks = taskRepository.findByCourseOrderByOrderAsc(course);
+        Task newTask = taskServiceHelper.createNewTask(body, course, Type.OPEN_TEXT);
 
-        Task newTask = MapperServiceUtil.convertObject(body, Task.class);
-        newTask.setCourse(course);
-        newTask.setType(Type.OPEN_TEXT);
+        taskServiceHelper.validateOrderDesired(tasks.size(), newTask.getOrder());
 
         if(!tasks.isEmpty()){
             taskServiceHelper.validateIdenticalStatements(tasks, body.getStatement());
-            tasks = taskServiceHelper.reorderTasks(newTask, tasks);
+            tasks = taskServiceHelper.setNewPositionTasks(tasks, newTask, newTask.getOrder());
+        }else{
+            tasks.add(newTask);
         }
 
         List<Task> savedTasks = taskRepository.saveAll(tasks);
+        return taskServiceHelper.createResponseTask(course, savedTasks);
+    }
 
-        CourseDTO.Response.Course courseResponse = MapperServiceUtil
-                .convertObject(course, CourseDTO.Response.Course.class);
-        List<TaskDTO.Response.Task> tasksResponse = MapperServiceUtil
-                .convertObjects(savedTasks, TaskDTO.Response.Task.class);
+    @Override
+    public TaskDTO.Response.Tasks newSingleChoice(TaskDTO.Request.Choice body) {
+        Course course = taskServiceHelper.getCourseForNewTask(body.getCourseId());
+        List<Task> tasks = taskRepository.findByCourseOrderByOrderAsc(course);
+        Task newTask = taskServiceHelper.createNewTask(body, course, Type.SINGLE_CHOICE);
 
-        return new TaskDTO.Response.OpenText(courseResponse, tasksResponse);
+        taskServiceHelper.validateOrderDesired(tasks.size(), newTask.getOrder());
+        taskServiceHelper.validateQuantitiesCorrectAnswer(newTask.getOptions(), 1);
+        taskServiceHelper.validateIdenticalOptionsAndStatement(newTask);
+
+        if(!tasks.isEmpty()){
+            taskServiceHelper.validateIdenticalStatements(tasks, body.getStatement());
+            tasks = taskServiceHelper.setNewPositionTasks(tasks, newTask, newTask.getOrder());
+        }else{
+            tasks.add(newTask);
+        }
+
+        List<Task> savedTasks = taskRepository.saveAll(tasks);
+        return taskServiceHelper.createResponseTask(course, savedTasks);
+    }
+
+    @Override
+    public TaskDTO.Response.Tasks newMultipleChoice(TaskDTO.Request.Choice body) {
+        return null;
     }
 }

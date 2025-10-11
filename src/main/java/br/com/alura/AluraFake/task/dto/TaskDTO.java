@@ -6,6 +6,7 @@ import jakarta.validation.constraints.NotBlank;
 import jakarta.validation.constraints.NotEmpty;
 import jakarta.validation.constraints.NotNull;
 import jakarta.validation.constraints.Positive;
+import jakarta.validation.constraints.Size;
 import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.EqualsAndHashCode;
@@ -14,15 +15,17 @@ import org.hibernate.validator.constraints.Length;
 
 import java.util.List;
 
+import static br.com.alura.AluraFake.util.constants.MessageValidation.MSG_MIN_MAX_OPTIONS_TASK_SINGLE_CHOICE;
 import static br.com.alura.AluraFake.util.constants.MessageValidation.MSG_NOT_EMPTY;
 import static br.com.alura.AluraFake.util.constants.MessageValidation.MSG_NOT_NULL;
 import static br.com.alura.AluraFake.util.constants.MessageValidation.MSG_NOT_NULL_OR_EMPTY;
 import static br.com.alura.AluraFake.util.constants.MessageValidation.MSG_POSITIVE;
 
-
 public class TaskDTO {
 
     public static class Request{
+
+        public interface Task{}
 
         @Data
         private static class Base{
@@ -39,19 +42,22 @@ public class TaskDTO {
             private Integer order;
         }
 
+        @Data
         @EqualsAndHashCode(callSuper = true)
-        public static class OpenText extends Base{
+        public static class OpenText extends Base implements Task{
         }
 
         @Data
         @EqualsAndHashCode(callSuper = true)
-        public static class Choice extends Base{
+        public static class Choice extends Base implements Task{
+            @Size(min = 2, max = 5, message = MSG_MIN_MAX_OPTIONS_TASK_SINGLE_CHOICE)
             @NotEmpty(message = MSG_NOT_EMPTY)
             List<Options> options;
         }
 
         @Data
         private static class Options{
+            @Length(min = 4, max = 80, message = "The field must contain between 4 and 80 characters")
             private String option;
             private Boolean isCorrect;
         }
@@ -60,19 +66,26 @@ public class TaskDTO {
     public static class Response{
 
         @Data
-        @JsonInclude(JsonInclude.Include.NON_NULL)
         public static class Task{
             private String statement;
             private String type;
             private Integer order;
+            @JsonInclude(JsonInclude.Include.NON_EMPTY)
+            private List<TaskDTO.Response.Options> options;
         }
 
         @Data
-        @RequiredArgsConstructor
         @AllArgsConstructor
-        public static class OpenText{
+        @RequiredArgsConstructor
+        public static class Tasks {
             private CourseDTO.Response.Course course;
             List<TaskDTO.Response.Task> tasks;
+        }
+
+        @Data
+        private static class Options{
+            private String option;
+            private Boolean isCorrect;
         }
 
     }

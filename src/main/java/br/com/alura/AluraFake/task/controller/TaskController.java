@@ -19,18 +19,18 @@ public class TaskController {
     private final TaskService taskService;
 
     @PostMapping("/new/opentext")
-    public ResponseEntity<TaskDTO.Response.OpenText> newOpenTextExercise(@RequestBody @Valid TaskDTO.Request.OpenText body) {
+    public ResponseEntity<TaskDTO.Response.Tasks> newOpenTextExercise(@RequestBody @Valid TaskDTO.Request.OpenText body) {
         return ResponseEntity.status(HttpStatus.CREATED).body(taskService.newOpenTextExercise(body));
     }
 
     @PostMapping("/new/singlechoice")
-    public ResponseEntity newSingleChoice() {
-        return ResponseEntity.ok().build();
+    public ResponseEntity<TaskDTO.Response.Tasks> newSingleChoice(@RequestBody @Valid TaskDTO.Request.Choice body) {
+        return ResponseEntity.status(HttpStatus.CREATED).body(taskService.newSingleChoice(body));
     }
 
     @PostMapping("/new/multiplechoice")
-    public ResponseEntity newMultipleChoice() {
-        return ResponseEntity.ok().build();
+    public ResponseEntity newMultipleChoice(@RequestBody @Valid TaskDTO.Request.Choice body) {
+        return ResponseEntity.status(HttpStatus.CREATED).body(taskService.newMultipleChoice(body));
     }
 
 }

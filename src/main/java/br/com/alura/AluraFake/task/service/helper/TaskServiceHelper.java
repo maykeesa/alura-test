@@ -1,10 +1,10 @@
 package br.com.alura.AluraFake.task.service.helper;
 
 import br.com.alura.AluraFake.config.exception.exceptions.ServiceException;
-import br.com.alura.AluraFake.course.model.Course;
 import br.com.alura.AluraFake.course.dto.CourseDTO;
-import br.com.alura.AluraFake.course.repository.CourseRepository;
 import br.com.alura.AluraFake.course.enums.Status;
+import br.com.alura.AluraFake.course.model.Course;
+import br.com.alura.AluraFake.course.repository.CourseRepository;
 import br.com.alura.AluraFake.task.dto.TaskDTO;
 import br.com.alura.AluraFake.task.enums.Type;
 import br.com.alura.AluraFake.task.model.Option;
@@ -14,7 +14,6 @@ import br.com.alura.AluraFake.util.service.MapperServiceUtil;
 import jakarta.persistence.EntityNotFoundException;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Component;
-import org.springframework.stereotype.Service;
 
 import java.util.HashSet;
 import java.util.List;

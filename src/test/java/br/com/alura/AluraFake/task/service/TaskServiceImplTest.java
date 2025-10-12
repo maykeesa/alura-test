@@ -10,7 +10,6 @@ import org.mockito.InjectMocks;
 import org.mockito.Mock;
 import org.mockito.junit.jupiter.MockitoExtension;
 
-import static org.junit.jupiter.api.Assertions.*;
 import static org.mockito.ArgumentMatchers.any;
 import static org.mockito.Mockito.mock;
 import static org.mockito.Mockito.times;
@@ -34,7 +33,7 @@ class TaskServiceImplTest {
         when(taskServiceHelper.createNewTask(openText, Type.OPEN_TEXT))
                 .thenReturn(new TaskDTO.Response.Tasks());
 
-        taskService.newOpenTextExercise(openText);
+        taskService.newOpenText(openText);
 
         verify(taskServiceHelper, times(1)).createNewTask(any(), any());
     }

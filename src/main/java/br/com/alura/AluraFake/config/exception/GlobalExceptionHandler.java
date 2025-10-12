@@ -9,13 +9,11 @@ import org.springframework.web.bind.MethodArgumentNotValidException;
 import org.springframework.web.bind.annotation.ControllerAdvice;
 import org.springframework.web.bind.annotation.ExceptionHandler;
 
-import java.time.format.DateTimeParseException;
 import java.util.HashMap;
 import java.util.Map;
 
 import static org.springframework.http.HttpStatus.BAD_REQUEST;
 import static org.springframework.http.HttpStatus.NOT_FOUND;
-import static org.springframework.http.HttpStatus.UNAUTHORIZED;
 
 @ControllerAdvice
 public class GlobalExceptionHandler {
@@ -32,12 +30,6 @@ public class GlobalExceptionHandler {
         return ResponseEntity.badRequest().body(
                 new ErrorDTO.Response.Error(BAD_REQUEST.value(), ex.getClass().getSimpleName(), map));
     }
-
-//    @ExceptionHandler(DateTimeParseException.class)
-//    public ResponseEntity<ErrorDTO.Response.Error> handlerMethodArgumentNotValid(DateTimeParseException ex) {
-//        return ResponseEntity.status(BAD_REQUEST).body(
-//                new ErrorDTO.Response.Error(BAD_REQUEST.value(), ex.getClass().getSimpleName(), MSG_PATTERN_DATA));
-//    }
 
     @ExceptionHandler(EntityNotFoundException.class)
     public ResponseEntity<ErrorDTO.Response.Error> handlerEntityNotFound(EntityNotFoundException ex) {

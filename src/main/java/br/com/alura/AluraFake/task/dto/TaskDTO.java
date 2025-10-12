@@ -85,6 +85,7 @@ public class TaskDTO {
 
         @Data
         public static class Task{
+            private Long id;
             private String statement;
             private String type;
             private Integer order;
@@ -102,6 +103,7 @@ public class TaskDTO {
 
         @Data
         private static class Options{
+            private Long id;
             private String option;
             private Boolean isCorrect;
         }

@@ -1,16 +1,18 @@
 package br.com.alura.AluraFake.task.controller.arguments;
 
-import br.com.alura.AluraFake.task.dto.TaskDTO;
 import com.fasterxml.jackson.core.JsonProcessingException;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.fasterxml.jackson.databind.node.ObjectNode;
 import org.junit.jupiter.params.provider.Arguments;
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
 
 import java.util.List;
 import java.util.Map;
 import java.util.stream.Stream;
+
+import static br.com.alura.AluraFake.task.service.helper.TaskServiceHelperTest.requestMultipleChoice;
+import static br.com.alura.AluraFake.task.service.helper.TaskServiceHelperTest.requestOpenText;
+import static br.com.alura.AluraFake.task.service.helper.TaskServiceHelperTest.requestSingleChoice;
 
 @Component
 public class TaskControllerTestArguments {
@@ -232,60 +234,15 @@ public class TaskControllerTestArguments {
     }
 
     public static String bodyOpenText() throws JsonProcessingException {
-        TaskDTO.Request.OpenText body = new TaskDTO.Request.OpenText();
-        body.setCourseId(1L);
-        body.setStatement("What is POO? And what are its pillars?");
-        body.setOrder(1);
-
-        return new ObjectMapper().writeValueAsString(body);
+        return new ObjectMapper().writeValueAsString(requestOpenText());
     }
 
     public static String bodySingleChoice() throws JsonProcessingException {
-        TaskDTO.Request.SingleChoice body = new TaskDTO.Request.SingleChoice();
-        body.setCourseId(1L);
-        body.setStatement("What is the best language?");
-        body.setOrder(1);
-
-        TaskDTO.Request.Options first = new TaskDTO.Request.Options();
-        first.setOption("Java");
-        first.setIsCorrect(false);
-
-        TaskDTO.Request.Options second = new TaskDTO.Request.Options();
-        second.setOption("The one who pays the bills");
-        second.setIsCorrect(true);
-
-        TaskDTO.Request.Options third = new TaskDTO.Request.Options();
-        third.setOption("Python");
-        third.setIsCorrect(false);
-
-        List<TaskDTO.Request.Options> options = List.of(first, second, third);
-        body.setOptions(options);
-
-        return new ObjectMapper().writeValueAsString(body);
+        return new ObjectMapper().writeValueAsString(requestSingleChoice());
     }
 
     public static String bodyMultipleChoice() throws JsonProcessingException {
-        TaskDTO.Request.MultipleChoice body = new TaskDTO.Request.MultipleChoice();
-        body.setCourseId(1L);
-        body.setStatement("What is the best language?");
-        body.setOrder(1);
-
-        TaskDTO.Request.Options first = new TaskDTO.Request.Options();
-        first.setOption("Java");
-        first.setIsCorrect(true);
-
-        TaskDTO.Request.Options second = new TaskDTO.Request.Options();
-        second.setOption("The one who pays the bills");
-        second.setIsCorrect(true);
-
-        TaskDTO.Request.Options third = new TaskDTO.Request.Options();
-        third.setOption("Python");
-        third.setIsCorrect(false);
-
-        List<TaskDTO.Request.Options> options = List.of(first, second, third);
-        body.setOptions(options);
-
-        return new ObjectMapper().writeValueAsString(body);
+        return new ObjectMapper().writeValueAsString(requestMultipleChoice());
     }
 
     private static String updateValueJson(String jsonStr, Map<String, Object> changes) throws Exception {

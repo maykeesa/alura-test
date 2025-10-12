@@ -2,9 +2,13 @@ package br.com.alura.AluraFake.user;
 
 import br.com.alura.AluraFake.util.PasswordGeneration;
 import jakarta.persistence.*;
+import lombok.Getter;
+import lombok.Setter;
 
 import java.time.LocalDateTime;
 
+@Getter
+@Setter
 @Entity
 public class User {
 
@@ -33,27 +37,7 @@ public class User {
         this(name, email, role, PasswordGeneration.generatePassword());
     }
 
-    public LocalDateTime getCreatedAt() {
-        return createdAt;
-    }
-
-    public String getName() {
-        return name;
-    }
-
-    public String getEmail() {
-        return email;
-    }
-
-    public Role getRole() {
-        return role;
-    }
-
     public boolean isInstructor() {
         return Role.INSTRUCTOR.equals(this.role);
-    }
-
-    public String getPassword() {
-        return password;
     }
 }

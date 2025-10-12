@@ -2,8 +2,11 @@ package br.com.alura.AluraFake.course.service;
 
 import br.com.alura.AluraFake.config.exception.exceptions.ServiceException;
 import br.com.alura.AluraFake.course.dto.CourseDTO;
+import br.com.alura.AluraFake.course.enums.Status;
 import br.com.alura.AluraFake.course.model.Course;
 import br.com.alura.AluraFake.course.repository.CourseRepository;
+import br.com.alura.AluraFake.course.service.helper.CourseServiceHelper;
+import br.com.alura.AluraFake.task.model.Task;
 import br.com.alura.AluraFake.user.User;
 import br.com.alura.AluraFake.user.UserRepository;
 import br.com.alura.AluraFake.util.service.MapperServiceUtil;
@@ -12,12 +15,16 @@ import org.modelmapper.ModelMapper;
 import org.springframework.data.domain.Page;
 import org.springframework.stereotype.Service;
 
+import java.time.LocalDateTime;
+import java.util.Comparator;
 import java.util.List;
 import java.util.Optional;
 
 @Service
 @RequiredArgsConstructor
 public class CourseServiceImpl implements CourseService{
+
+    private final CourseServiceHelper courseServiceHelper;
 
     private final CourseRepository courseRepository;
     private final UserRepository userRepository;
@@ -28,22 +35,38 @@ public class CourseServiceImpl implements CourseService{
     }
 
     @Override
-    public CourseDTO.Response.Course create(CourseDTO.Request.Register newCourse) {
+    public CourseDTO.Response.Course create(CourseDTO.Request.Register body) {
         Optional<User> possibleAuthor = userRepository
-                .findByEmail(newCourse.getEmailInstructor())
+                .findByEmail(body.getEmailInstructor())
                 .filter(User::isInstructor);
 
         if(possibleAuthor.isEmpty()) {
             throw new ServiceException("The user is not an instructor.");
         }
 
-        Course course = new Course(newCourse.getTitle(), newCourse.getDescription(), possibleAuthor.get());
+        Course course = new Course(body.getTitle(), body.getDescription(), possibleAuthor.get());
 
         return MapperServiceUtil.convertObject(courseRepository.save(course), CourseDTO.Response.Course.class);
     }
 
     @Override
     public CourseDTO.Response.Course publish(Long id) {
-        return null;
+        Course course = courseServiceHelper.getCourse(id);
+        List<Task> tasks = course.getTasks().stream()
+                .sorted(Comparator.comparing(Task::getOrder))
+                .toList();
+
+        if(tasks.isEmpty()){
+            throw new ServiceException("To publish a course, you must add assignments.");
+        }
+
+        courseServiceHelper.validateSequentialOrder(tasks);
+        courseServiceHelper.validateTypesTasksContained(tasks);
+
+        course.setStatus(Status.PUBLISHED);
+        course.setPublishedAt(LocalDateTime.now());
+        Course courseSaved = courseRepository.save(course);
+
+        return MapperServiceUtil.convertObject(courseSaved, CourseDTO.Response.Course.class);
     }
 }

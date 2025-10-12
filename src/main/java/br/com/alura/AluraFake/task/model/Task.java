@@ -1,7 +1,10 @@
 package br.com.alura.AluraFake.task.model;
 
+import br.com.alura.AluraFake.course.dto.CourseDTO;
 import br.com.alura.AluraFake.course.model.Course;
+import br.com.alura.AluraFake.task.dto.TaskDTO;
 import br.com.alura.AluraFake.task.enums.Type;
+import br.com.alura.AluraFake.util.service.MapperServiceUtil;
 import com.fasterxml.jackson.annotation.JsonManagedReference;
 import jakarta.persistence.CascadeType;
 import jakarta.persistence.Column;
@@ -17,6 +20,7 @@ import jakarta.persistence.ManyToOne;
 import jakarta.persistence.OneToMany;
 import lombok.Data;
 import lombok.NoArgsConstructor;
+import lombok.ToString;
 import org.hibernate.annotations.CreationTimestamp;
 import org.hibernate.annotations.UpdateTimestamp;
 
@@ -42,10 +46,12 @@ public class Task {
     @Enumerated(EnumType.STRING)
     private Type type;
 
+    @ToString.Exclude
     @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "course_id")
     private Course course;
 
+    @ToString.Exclude
     @JsonManagedReference
     @OneToMany(mappedBy = "task", cascade = CascadeType.ALL, orphanRemoval = true)
     private List<Option> options;

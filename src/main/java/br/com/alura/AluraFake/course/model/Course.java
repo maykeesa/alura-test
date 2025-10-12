@@ -6,6 +6,7 @@ import br.com.alura.AluraFake.user.User;
 import jakarta.persistence.*;
 import lombok.Data;
 import lombok.NoArgsConstructor;
+import lombok.ToString;
 import org.hibernate.annotations.CreationTimestamp;
 import org.springframework.util.Assert;
 
@@ -29,6 +30,7 @@ public class Course {
     @ManyToOne(fetch = FetchType.LAZY)
     private User instructor;
 
+    @ToString.Exclude
     @OneToMany(mappedBy = "course", cascade = CascadeType.ALL, orphanRemoval = true)
     private List<Task> tasks = new ArrayList<>();
 

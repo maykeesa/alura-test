@@ -1,12 +1,14 @@
 package br.com.alura.AluraFake.course.dto;
 
 import br.com.alura.AluraFake.course.enums.Status;
+import com.fasterxml.jackson.annotation.JsonInclude;
 import jakarta.validation.constraints.Email;
 import jakarta.validation.constraints.NotBlank;
 import lombok.Data;
 import org.hibernate.validator.constraints.Length;
 
 import java.io.Serializable;
+import java.time.LocalDateTime;
 
 import static br.com.alura.AluraFake.util.constants.MessageValidation.MSG_EMAIL_INVALID;
 import static br.com.alura.AluraFake.util.constants.MessageValidation.MSG_NOT_NULL_OR_EMPTY;
@@ -34,11 +36,14 @@ public class CourseDTO {
     public static class Response{
 
         @Data
+        @JsonInclude(JsonInclude.Include.NON_NULL)
         public static class Course implements Serializable {
             private Long id;
             private String title;
             private String description;
             private Status status;
+            private LocalDateTime publishedAt;
+            private LocalDateTime createdAt;
         }
     }
 }

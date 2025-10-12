@@ -13,13 +13,14 @@ import br.com.alura.AluraFake.task.repository.TaskRepository;
 import br.com.alura.AluraFake.util.service.MapperServiceUtil;
 import jakarta.persistence.EntityNotFoundException;
 import lombok.RequiredArgsConstructor;
+import org.springframework.stereotype.Component;
 import org.springframework.stereotype.Service;
 
 import java.util.HashSet;
 import java.util.List;
 import java.util.Set;
 
-@Service
+@Component
 @RequiredArgsConstructor
 public class TaskServiceHelper {
 

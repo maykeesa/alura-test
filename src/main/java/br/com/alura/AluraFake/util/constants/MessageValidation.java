@@ -11,5 +11,4 @@ public class MessageValidation {
             "Single-choice questions should have between two and five alternatives.";
     public static final String MSG_MIN_MAX_OPTIONS_TASK_MULTIPLE_CHOICE =
             "Multiple-choice questions should have between three and five alternatives.";
-    public static final String MSG_DATE_PATTERN_INVALID = "Incorrect date format, example format: yyyy-MM-dd";
 }

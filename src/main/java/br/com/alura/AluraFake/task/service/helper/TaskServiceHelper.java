@@ -1,10 +1,10 @@
 package br.com.alura.AluraFake.task.service.helper;
 
 import br.com.alura.AluraFake.config.exception.exceptions.ServiceException;
-import br.com.alura.AluraFake.course.Course;
-import br.com.alura.AluraFake.course.CourseDTO;
-import br.com.alura.AluraFake.course.CourseRepository;
-import br.com.alura.AluraFake.course.Status;
+import br.com.alura.AluraFake.course.model.Course;
+import br.com.alura.AluraFake.course.dto.CourseDTO;
+import br.com.alura.AluraFake.course.repository.CourseRepository;
+import br.com.alura.AluraFake.course.enums.Status;
 import br.com.alura.AluraFake.task.dto.TaskDTO;
 import br.com.alura.AluraFake.task.enums.Type;
 import br.com.alura.AluraFake.task.model.Option;

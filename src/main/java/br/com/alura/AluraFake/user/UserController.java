@@ -1,10 +1,14 @@
 package br.com.alura.AluraFake.user;
 
-import br.com.alura.AluraFake.util.ErrorItemDTO;
+import br.com.alura.AluraFake.config.exception.exceptions.ServiceException;
 import jakarta.validation.Valid;
-import org.springframework.http.*;
+import org.springframework.http.HttpStatus;
+import org.springframework.http.ResponseEntity;
 import org.springframework.transaction.annotation.Transactional;
-import org.springframework.web.bind.annotation.*;
+import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.RequestBody;
+import org.springframework.web.bind.annotation.RestController;
 
 import java.util.List;
 
@@ -21,8 +25,7 @@ public class UserController {
     @PostMapping("/user/new")
     public ResponseEntity newStudent(@RequestBody @Valid NewUserDTO newUser) {
         if(userRepository.existsByEmail(newUser.getEmail())) {
-            return ResponseEntity.status(HttpStatus.BAD_REQUEST)
-                    .body(new ErrorItemDTO("email", "Email já cadastrado no sistema"));
+            throw new ServiceException("Email already registered in the system.");
         }
         User user = newUser.toModel();
         userRepository.save(user);

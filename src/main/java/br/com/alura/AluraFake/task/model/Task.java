@@ -1,6 +1,6 @@
 package br.com.alura.AluraFake.task.model;
 
-import br.com.alura.AluraFake.course.Course;
+import br.com.alura.AluraFake.course.model.Course;
 import br.com.alura.AluraFake.task.enums.Type;
 import com.fasterxml.jackson.annotation.JsonManagedReference;
 import jakarta.persistence.CascadeType;

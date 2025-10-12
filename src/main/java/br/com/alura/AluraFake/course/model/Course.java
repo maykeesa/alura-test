@@ -1,5 +1,6 @@
-package br.com.alura.AluraFake.course;
+package br.com.alura.AluraFake.course.model;
 
+import br.com.alura.AluraFake.course.enums.Status;
 import br.com.alura.AluraFake.task.model.Task;
 import br.com.alura.AluraFake.user.User;
 import jakarta.persistence.*;

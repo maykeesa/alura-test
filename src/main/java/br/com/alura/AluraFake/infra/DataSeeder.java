@@ -1,7 +1,7 @@
 package br.com.alura.AluraFake.infra;
 
-import br.com.alura.AluraFake.course.Course;
-import br.com.alura.AluraFake.course.CourseRepository;
+import br.com.alura.AluraFake.course.model.Course;
+import br.com.alura.AluraFake.course.repository.CourseRepository;
 import br.com.alura.AluraFake.user.Role;
 import br.com.alura.AluraFake.user.User;
 import br.com.alura.AluraFake.user.UserRepository;

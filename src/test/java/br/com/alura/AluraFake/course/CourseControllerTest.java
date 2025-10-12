@@ -1,5 +1,9 @@
 package br.com.alura.AluraFake.course;
 
+import br.com.alura.AluraFake.course.controller.CourseController;
+import br.com.alura.AluraFake.course.dto.CourseDTO;
+import br.com.alura.AluraFake.course.model.Course;
+import br.com.alura.AluraFake.course.repository.CourseRepository;
 import br.com.alura.AluraFake.user.*;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import org.junit.jupiter.api.Test;

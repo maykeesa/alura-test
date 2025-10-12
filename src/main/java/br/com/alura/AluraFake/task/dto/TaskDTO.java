@@ -1,6 +1,6 @@
 package br.com.alura.AluraFake.task.dto;
 
-import br.com.alura.AluraFake.course.CourseDTO;
+import br.com.alura.AluraFake.course.dto.CourseDTO;
 import com.fasterxml.jackson.annotation.JsonInclude;
 import jakarta.validation.Valid;
 import jakarta.validation.constraints.NotBlank;

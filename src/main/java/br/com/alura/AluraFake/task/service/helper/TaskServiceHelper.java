@@ -41,7 +41,7 @@ public class TaskServiceHelper {
         if (!tasks.isEmpty()) {
             tasks.forEach(task -> {
                 validateIdenticalStatements(task, newTask.getStatement());
-                setNewPositionTasks(tasks, task, newTask);
+                setNewPositionTasks(task, newTask);
             });
 
             tasks.add(newTask.getOrder() - 1, newTask);
@@ -107,6 +107,9 @@ public class TaskServiceHelper {
                 amountTruth++;
         }
 
+        if (amountTruth == 0)
+            throw new ServiceException("The task must have at least one correct alternative.");
+
         if (type.equals(Type.SINGLE_CHOICE) && amountTruth > numberCorrectAnswers) {
             throw new ServiceException("There should only be one correct option.");
         }
@@ -114,9 +117,6 @@ public class TaskServiceHelper {
         if (type.equals(Type.MULTIPLE_CHOICE) && amountTruth < numberCorrectAnswers) {
             throw new ServiceException("There must be at least two correct options.");
         }
-
-        if (amountTruth == 0)
-            throw new ServiceException("The task must have at least one correct alternative.");
     }
 
     private void validateIdenticalOptionsAndStatement(Task newTask) {
@@ -132,7 +132,7 @@ public class TaskServiceHelper {
         });
     }
 
-    private void setNewPositionTasks(List<Task> tasks, Task task, Task newTask) {
+    private void setNewPositionTasks(Task task, Task newTask) {
         if (task.getOrder() >= newTask.getOrder()) {
             task.setOrder(task.getOrder() + 1);
         }

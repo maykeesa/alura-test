@@ -30,7 +30,7 @@ class CourseControllerTest {
     @Test
     void newCourseDTO__should_return_bad_request_when_email_is_invalid() throws Exception {
 
-        NewCourseDTO newCourseDTO = new NewCourseDTO();
+        CourseDTO.Request.Register newCourseDTO = new CourseDTO.Request.Register();
         newCourseDTO.setTitle("Java");
         newCourseDTO.setDescription("Curso de Java");
         newCourseDTO.setEmailInstructor("paulo@alura.com.br");
@@ -50,7 +50,7 @@ class CourseControllerTest {
     @Test
     void newCourseDTO__should_return_bad_request_when_email_is_no_instructor() throws Exception {
 
-        NewCourseDTO newCourseDTO = new NewCourseDTO();
+        CourseDTO.Request.Register newCourseDTO = new CourseDTO.Request.Register();
         newCourseDTO.setTitle("Java");
         newCourseDTO.setDescription("Curso de Java");
         newCourseDTO.setEmailInstructor("paulo@alura.com.br");
@@ -72,7 +72,7 @@ class CourseControllerTest {
     @Test
     void newCourseDTO__should_return_created_when_new_course_request_is_valid() throws Exception {
 
-        NewCourseDTO newCourseDTO = new NewCourseDTO();
+        CourseDTO.Request.Register newCourseDTO = new CourseDTO.Request.Register();
         newCourseDTO.setTitle("Java");
         newCourseDTO.setDescription("Curso de Java");
         newCourseDTO.setEmailInstructor("paulo@alura.com.br");

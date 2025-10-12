@@ -73,7 +73,7 @@ public class TaskDTO {
         }
 
         @Data
-        private static class Options{
+        public static class Options{
             @Length(min = 4, max = 80, message = "The field must contain between 4 and 80 characters")
             private String option;
             @NotNull(message = MSG_NOT_NULL)

@@ -7,12 +7,10 @@ import br.com.alura.AluraFake.course.model.Course;
 import br.com.alura.AluraFake.course.repository.CourseRepository;
 import br.com.alura.AluraFake.course.service.helper.CourseServiceHelper;
 import br.com.alura.AluraFake.task.model.Task;
-import br.com.alura.AluraFake.user.User;
-import br.com.alura.AluraFake.user.UserRepository;
+import br.com.alura.AluraFake.user.model.User;
+import br.com.alura.AluraFake.user.repository.UserRepository;
 import br.com.alura.AluraFake.util.service.MapperServiceUtil;
 import lombok.RequiredArgsConstructor;
-import org.modelmapper.ModelMapper;
-import org.springframework.data.domain.Page;
 import org.springframework.stereotype.Service;
 
 import java.time.LocalDateTime;
@@ -30,7 +28,7 @@ public class CourseServiceImpl implements CourseService{
     private final UserRepository userRepository;
 
     @Override
-    public List<CourseDTO.Response.Course> getAll() {
+    public List<CourseDTO.Response.Course> findAll() {
         return MapperServiceUtil.convertObjects(courseRepository.findAll(), CourseDTO.Response.Course.class);
     }
 

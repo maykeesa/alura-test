@@ -13,7 +13,7 @@ public class TaskServiceImpl implements TaskService{
     private final TaskServiceHelper taskServiceHelper;
 
     @Override
-    public TaskDTO.Response.Tasks newOpenTextExercise(TaskDTO.Request.OpenText body) {
+    public TaskDTO.Response.Tasks newOpenText(TaskDTO.Request.OpenText body) {
         return taskServiceHelper.createNewTask(body, Type.OPEN_TEXT);
     }
 

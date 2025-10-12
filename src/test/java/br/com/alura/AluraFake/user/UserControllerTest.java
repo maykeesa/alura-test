@@ -1,5 +1,10 @@
 package br.com.alura.AluraFake.user;
 
+import br.com.alura.AluraFake.user.controller.UserController;
+import br.com.alura.AluraFake.user.dto.UserDTO;
+import br.com.alura.AluraFake.user.enums.Role;
+import br.com.alura.AluraFake.user.model.User;
+import br.com.alura.AluraFake.user.repository.UserRepository;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -28,7 +33,7 @@ class UserControllerTest {
 
     @Test
     void newUser__should_return_bad_request_when_email_is_blank() throws Exception {
-        NewUserDTO newUserDTO = new NewUserDTO();
+        UserDTO.Request.Register newUserDTO = new UserDTO.Request.Register();
         newUserDTO.setEmail("");
         newUserDTO.setName("Caio Bugorin");
         newUserDTO.setRole(Role.STUDENT);
@@ -43,7 +48,7 @@ class UserControllerTest {
 
     @Test
     void newUser__should_return_bad_request_when_email_is_invalid() throws Exception {
-        NewUserDTO newUserDTO = new NewUserDTO();
+        UserDTO.Request.Register newUserDTO = new UserDTO.Request.Register();
         newUserDTO.setEmail("caio");
         newUserDTO.setName("Caio Bugorin");
         newUserDTO.setRole(Role.STUDENT);
@@ -58,7 +63,7 @@ class UserControllerTest {
 
     @Test
     void newUser__should_return_bad_request_when_email_already_exists() throws Exception {
-        NewUserDTO newUserDTO = new NewUserDTO();
+        UserDTO.Request.Register newUserDTO = new UserDTO.Request.Register();
         newUserDTO.setEmail("caio.bugorin@alura.com.br");
         newUserDTO.setName("Caio Bugorin");
         newUserDTO.setRole(Role.STUDENT);
@@ -75,7 +80,7 @@ class UserControllerTest {
 
     @Test
     void newUser__should_return_created_when_user_request_is_valid() throws Exception {
-        NewUserDTO newUserDTO = new NewUserDTO();
+        UserDTO.Request.Register newUserDTO = new UserDTO.Request.Register();
         newUserDTO.setEmail("caio.bugorin@alura.com.br");
         newUserDTO.setName("Caio Bugorin");
         newUserDTO.setRole(Role.STUDENT);

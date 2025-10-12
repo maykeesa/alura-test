@@ -19,8 +19,8 @@ public class TaskController {
     private final TaskService taskService;
 
     @PostMapping("/new/opentext")
-    public ResponseEntity<TaskDTO.Response.Tasks> newOpenTextExercise(@RequestBody @Valid TaskDTO.Request.OpenText body) {
-        return ResponseEntity.status(HttpStatus.CREATED).body(taskService.newOpenTextExercise(body));
+    public ResponseEntity<TaskDTO.Response.Tasks> newOpenText(@RequestBody @Valid TaskDTO.Request.OpenText body) {
+        return ResponseEntity.status(HttpStatus.CREATED).body(taskService.newOpenText(body));
     }
 
     @PostMapping("/new/singlechoice")

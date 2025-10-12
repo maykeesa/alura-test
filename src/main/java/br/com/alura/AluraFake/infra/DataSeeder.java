@@ -2,9 +2,9 @@ package br.com.alura.AluraFake.infra;
 
 import br.com.alura.AluraFake.course.model.Course;
 import br.com.alura.AluraFake.course.repository.CourseRepository;
-import br.com.alura.AluraFake.user.Role;
-import br.com.alura.AluraFake.user.User;
-import br.com.alura.AluraFake.user.UserRepository;
+import br.com.alura.AluraFake.user.enums.Role;
+import br.com.alura.AluraFake.user.model.User;
+import br.com.alura.AluraFake.user.repository.UserRepository;
 import lombok.RequiredArgsConstructor;
 import org.springframework.boot.CommandLineRunner;
 import org.springframework.context.annotation.Profile;

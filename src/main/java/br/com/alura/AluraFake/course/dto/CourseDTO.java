@@ -40,6 +40,7 @@ public class CourseDTO {
         public static class Course implements Serializable {
             private Long id;
             private String title;
+            private Integer numberTasksCourse;
             private String description;
             private Status status;
             private LocalDateTime publishedAt;

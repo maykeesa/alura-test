@@ -2,7 +2,7 @@ package br.com.alura.AluraFake.course.model;
 
 import br.com.alura.AluraFake.course.enums.Status;
 import br.com.alura.AluraFake.task.model.Task;
-import br.com.alura.AluraFake.user.User;
+import br.com.alura.AluraFake.user.model.User;
 import jakarta.persistence.*;
 import lombok.Data;
 import lombok.NoArgsConstructor;

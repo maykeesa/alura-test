@@ -7,7 +7,7 @@ import java.util.List;
 
 public interface CourseService {
 
-    List<CourseDTO.Response.Course> getAll();
+    List<CourseDTO.Response.Course> findAll();
 
     CourseDTO.Response.Course create(CourseDTO.Request.Register newCourse);
 

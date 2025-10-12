@@ -24,8 +24,8 @@ public class CourseController {
     private final CourseService courseService;
 
     @GetMapping("/all")
-    public ResponseEntity<List<CourseDTO.Response.Course>> getAll() {
-        return ResponseEntity.ok(courseService.getAll());
+    public ResponseEntity<List<CourseDTO.Response.Course>> findAll() {
+        return ResponseEntity.ok(courseService.findAll());
     }
 
     @Transactional

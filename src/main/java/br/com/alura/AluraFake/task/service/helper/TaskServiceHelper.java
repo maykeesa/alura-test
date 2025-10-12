@@ -9,6 +9,7 @@ import br.com.alura.AluraFake.task.dto.TaskDTO;
 import br.com.alura.AluraFake.task.enums.Type;
 import br.com.alura.AluraFake.task.model.Option;
 import br.com.alura.AluraFake.task.model.Task;
+import br.com.alura.AluraFake.task.repository.TaskRepository;
 import br.com.alura.AluraFake.util.service.MapperServiceUtil;
 import jakarta.persistence.EntityNotFoundException;
 import lombok.RequiredArgsConstructor;
@@ -23,20 +24,48 @@ import java.util.Set;
 public class TaskServiceHelper {
 
     private final CourseRepository courseRepository;
+    private final TaskRepository taskRepository;
 
-    public Task createNewTask(TaskDTO.Request.Task body, Course course, Type typeTask) {
-        Task newTask = MapperServiceUtil.convertObject(body, Task.class);
-        newTask.setCourse(course);
-        newTask.setType(typeTask);
+    public TaskDTO.Response.Tasks createNewTask(TaskDTO.Request.Task body, Type type) {
+        Course course = getCourseForNewTask(body.getCourseId());
+        List<Task> tasks = taskRepository.findByCourseOrderByOrderAsc(course);
+        Task newTask = createTask(body, course, type);
 
-        if (!Type.OPEN_TEXT.equals(typeTask)) {
-            newTask.getOptions().forEach(option -> option.setTask(newTask));
+        validateOrderDesired(tasks.size(), newTask.getOrder());
+
+        if (type.equals(Type.SINGLE_CHOICE) || type.equals(Type.MULTIPLE_CHOICE)) {
+            validateQuantitiesCorrectAnswer(newTask.getOptions(), type);
+            validateIdenticalOptionsAndStatement(newTask);
         }
 
-        return newTask;
+        if (!tasks.isEmpty()) {
+            tasks.forEach(task -> {
+                validateIdenticalStatements(task, newTask.getStatement());
+                setNewPositionTasks(tasks, task, newTask);
+            });
+
+            tasks.add(newTask.getOrder() - 1, newTask);
+        } else {
+            tasks.add(newTask);
+        }
+
+        List<Task> savedTasks = taskRepository.saveAll(tasks);
+        return createResponseTask(course, savedTasks);
     }
 
-    public TaskDTO.Response.Tasks createResponseTask(Course course, List<Task> tasks) {
+    private Task createTask(TaskDTO.Request.Task body, Course course, Type typeTask) {
+        Task task = MapperServiceUtil.convertObject(body, Task.class);
+        task.setCourse(course);
+        task.setType(typeTask);
+
+        if (!Type.OPEN_TEXT.equals(typeTask)) {
+            task.getOptions().forEach(option -> option.setTask(task));
+        }
+
+        return task;
+    }
+
+    private TaskDTO.Response.Tasks createResponseTask(Course course, List<Task> tasks) {
         CourseDTO.Response.Course courseResponse = MapperServiceUtil
                 .convertObject(course, CourseDTO.Response.Course.class);
         List<TaskDTO.Response.Task> tasksResponse = MapperServiceUtil
@@ -45,7 +74,7 @@ public class TaskServiceHelper {
         return new TaskDTO.Response.Tasks(courseResponse, tasksResponse);
     }
 
-    public Course getCourseForNewTask(Long courseId) {
+    private Course getCourseForNewTask(Long courseId) {
         Course course = courseRepository.findById(courseId)
                 .orElseThrow(() -> new EntityNotFoundException("Course with id %s not found."
                         .formatted(courseId)));
@@ -57,36 +86,40 @@ public class TaskServiceHelper {
         return course;
     }
 
-    public void validateIdenticalStatements(List<Task> tasks, String statementNewTask) {
-        tasks.forEach(task -> {
-            if (task.getStatement().equals(statementNewTask))
-                throw new ServiceException("There is already a task with the same statement.");
-        });
+    private void validateIdenticalStatements(Task task, String statementNewTask) {
+        if (task.getStatement().equals(statementNewTask))
+            throw new ServiceException("There is already a task with the same statement.");
     }
 
-    public void validateOrderDesired(Integer sizeTasks, Integer orderNewTask) {
+    private void validateOrderDesired(Integer sizeTasks, Integer orderNewTask) {
         if ((sizeTasks + 1) < orderNewTask) {
             throw new ServiceException("Order exceeds the maximum allowed position (%d)."
                     .formatted(sizeTasks + 1));
         }
     }
 
-    public void validateQuantitiesCorrectAnswer(List<Option> options, Integer numberCorrectAnswers) {
+    private void validateQuantitiesCorrectAnswer(List<Option> options, Type type) {
         int amountTruth = 0;
+        int numberCorrectAnswers = type.equals(Type.SINGLE_CHOICE) ? 1 : 2;
 
-        for(Option option: options){
-            if(option.getIsCorrect())
+        for (Option option : options) {
+            if (option.getIsCorrect())
                 amountTruth++;
-
-            if(amountTruth > numberCorrectAnswers)
-                throw new ServiceException("There can be no more than one correct option in the task.");
         }
 
-        if(amountTruth == 0)
-            throw new ServiceException("The task must have a correct alternative.");
+        if (type.equals(Type.SINGLE_CHOICE) && amountTruth > numberCorrectAnswers) {
+            throw new ServiceException("There should only be one correct option.");
+        }
+
+        if (type.equals(Type.MULTIPLE_CHOICE) && amountTruth < numberCorrectAnswers) {
+            throw new ServiceException("There must be at least two correct options.");
+        }
+
+        if (amountTruth == 0)
+            throw new ServiceException("The task must have at least one correct alternative.");
     }
 
-    public void validateIdenticalOptionsAndStatement(Task newTask) {
+    private void validateIdenticalOptionsAndStatement(Task newTask) {
         Set<String> allOption = new HashSet<>();
 
         newTask.getOptions().forEach(option -> {
@@ -94,30 +127,14 @@ public class TaskServiceHelper {
                 throw new ServiceException("There is at least one duplicate option for this: %s"
                         .formatted(option.getOption()));
 
-            if(newTask.getStatement().equals(option.getOption()))
+            if (newTask.getStatement().equals(option.getOption()))
                 throw new ServiceException("The alternatives cannot be the same as the statement.");
         });
     }
 
-    public List<Task> setNewPositionTasks(List<Task> tasks, Task newTask, Integer orderNewTask) {
-        tasks.forEach(t -> {
-            {
-                if (t.getOrder() >= orderNewTask) {
-                    t.setOrder(t.getOrder() + 1);
-                }
-            }
-        });
-
-        setPositionNewTask(tasks, newTask, orderNewTask);
-
-        return tasks;
-    }
-
-    private void setPositionNewTask(List<Task> tasks, Task newTask, Integer orderNewTask) {
-        if ((tasks.size() + 1) == orderNewTask) {
-            tasks.add(newTask);
+    private void setNewPositionTasks(List<Task> tasks, Task task, Task newTask) {
+        if (task.getOrder() >= newTask.getOrder()) {
+            task.setOrder(task.getOrder() + 1);
         }
-
-        tasks.add(orderNewTask - 1, newTask);
     }
 }

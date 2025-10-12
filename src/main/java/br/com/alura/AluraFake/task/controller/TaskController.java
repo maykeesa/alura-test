@@ -24,12 +24,12 @@ public class TaskController {
     }
 
     @PostMapping("/new/singlechoice")
-    public ResponseEntity<TaskDTO.Response.Tasks> newSingleChoice(@RequestBody @Valid TaskDTO.Request.Choice body) {
+    public ResponseEntity<TaskDTO.Response.Tasks> newSingleChoice(@RequestBody @Valid TaskDTO.Request.SingleChoice body) {
         return ResponseEntity.status(HttpStatus.CREATED).body(taskService.newSingleChoice(body));
     }
 
     @PostMapping("/new/multiplechoice")
-    public ResponseEntity newMultipleChoice(@RequestBody @Valid TaskDTO.Request.Choice body) {
+    public ResponseEntity<TaskDTO.Response.Tasks> newMultipleChoice(@RequestBody @Valid TaskDTO.Request.MultipleChoice body) {
         return ResponseEntity.status(HttpStatus.CREATED).body(taskService.newMultipleChoice(body));
     }
 

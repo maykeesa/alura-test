@@ -6,7 +6,7 @@ public interface TaskService {
 
     TaskDTO.Response.Tasks newOpenTextExercise(TaskDTO.Request.OpenText body);
 
-    TaskDTO.Response.Tasks newSingleChoice(TaskDTO.Request.Choice body);
+    TaskDTO.Response.Tasks newSingleChoice(TaskDTO.Request.SingleChoice body);
 
-    TaskDTO.Response.Tasks newMultipleChoice(TaskDTO.Request.Choice body);
+    TaskDTO.Response.Tasks newMultipleChoice(TaskDTO.Request.MultipleChoice body);
 }

@@ -15,9 +15,6 @@ import java.util.stream.Stream;
 @Component
 public class TaskControllerTestArguments {
 
-    @Autowired
-    private ObjectMapper objectMapper;
-
     public static Stream<Arguments> provideInvalidOpenTextTasks() throws Exception {
         return Stream.of(
                 Arguments.of(updateValueJson(bodyOpenText(), Map.of("courseId", 3)),

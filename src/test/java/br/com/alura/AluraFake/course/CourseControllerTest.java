@@ -34,46 +34,6 @@ class CourseControllerTest {
 
     @Test
     @Sql(scripts = "/scripts/user/insert-user.sql")
-    void newCourseDTO__should_return_bad_request_when_email_is_invalid() throws Exception {
-        String jwtToken = "Bearer %s".formatted(
-                jwtUtils.generateToken("john.doe@example.com", "teste123"));
-
-        CourseDTO.Request.Register newCourseDTO = new CourseDTO.Request.Register();
-        newCourseDTO.setTitle("Java");
-        newCourseDTO.setDescription("Curso de Java");
-        newCourseDTO.setEmailInstructor("teste");
-
-        mockMvc.perform(post("/course/new")
-                        .contentType(MediaType.APPLICATION_JSON)
-                        .header("Authorization", jwtToken)
-                        .content(objectMapper.writeValueAsString(newCourseDTO)))
-                .andExpect(status().isBadRequest())
-                .andExpect(jsonPath("$.cause.emailInstructor")
-                        .value("The value passed must be an email address: example@mail.com"));
-    }
-
-    @Test
-    @Sql(scripts = "/scripts/user/insert-user.sql")
-    void newCourseDTO__should_return_bad_request_when_email_is_no_instructor() throws Exception {
-        String jwtToken = "Bearer %s".formatted(
-                jwtUtils.generateToken("john.doe@example.com", "teste123"));
-
-        CourseDTO.Request.Register newCourseDTO = new CourseDTO.Request.Register();
-        newCourseDTO.setTitle("Java");
-        newCourseDTO.setDescription("Curso de Java");
-        newCourseDTO.setEmailInstructor("jane.smith@example.com");
-
-        mockMvc.perform(post("/course/new")
-                        .contentType(MediaType.APPLICATION_JSON)
-                        .header("Authorization", jwtToken)
-                        .content(objectMapper.writeValueAsString(newCourseDTO)))
-                .andExpect(status().isBadRequest())
-                .andExpect(jsonPath("$.cause")
-                        .value("The user is not an instructor."));
-    }
-
-    @Test
-    @Sql(scripts = "/scripts/user/insert-user.sql")
     void newCourseDTO__should_return_created_when_new_course_request_is_valid() throws Exception {
         String jwtToken = "Bearer %s".formatted(
                 jwtUtils.generateToken("john.doe@example.com", "teste123"));
@@ -81,7 +41,6 @@ class CourseControllerTest {
         CourseDTO.Request.Register newCourseDTO = new CourseDTO.Request.Register();
         newCourseDTO.setTitle("Java");
         newCourseDTO.setDescription("Curso de Java");
-        newCourseDTO.setEmailInstructor("john.doe@example.com");
 
         mockMvc.perform(post("/course/new")
                         .contentType(MediaType.APPLICATION_JSON)

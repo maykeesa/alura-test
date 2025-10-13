@@ -11,6 +11,8 @@ import br.com.alura.AluraFake.user.model.User;
 import br.com.alura.AluraFake.user.repository.UserRepository;
 import br.com.alura.AluraFake.util.service.MapperServiceUtil;
 import lombok.RequiredArgsConstructor;
+import org.springframework.security.core.Authentication;
+import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.stereotype.Service;
 
 import java.time.LocalDateTime;
@@ -34,8 +36,10 @@ public class CourseServiceImpl implements CourseService{
 
     @Override
     public CourseDTO.Response.Course create(CourseDTO.Request.Register body) {
+        Authentication auth = SecurityContextHolder.getContext().getAuthentication();
+
         Optional<User> possibleAuthor = userRepository
-                .findByEmail(body.getEmailInstructor())
+                .findByEmail(auth.getPrincipal().toString())
                 .filter(User::isInstructor);
 
         if(possibleAuthor.isEmpty()) {

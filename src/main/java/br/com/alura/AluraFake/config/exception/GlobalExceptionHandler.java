@@ -42,10 +42,4 @@ public class GlobalExceptionHandler {
         return ResponseEntity.status(BAD_REQUEST).body(
                 new ErrorDTO.Response.Error(BAD_REQUEST.value(), ex.getClass().getSimpleName(), ex.getMessage()));
     }
-
-//    @ExceptionHandler(BadCredentialsException.class)
-//    public ResponseEntity<ErrorDTO.Response.Error> handlerBadCredentials(BadCredentialsException ex) {
-//        return ResponseEntity.status(UNAUTHORIZED).body(
-//                new ErrorDTO.Response.Error(UNAUTHORIZED.value(), ex.getClass().getSimpleName(), ex.getMessage()));
-//    }
 }

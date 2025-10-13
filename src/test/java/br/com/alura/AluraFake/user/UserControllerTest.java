@@ -38,7 +38,7 @@ class UserControllerTest {
         UserDTO.Request.Register newUserDTO = new UserDTO.Request.Register();
         newUserDTO.setEmail("caio");
         newUserDTO.setName("Caio Bugorin");
-        newUserDTO.setRole(Role.STUDENT);
+        newUserDTO.setRole(Role.STUDENT.toString());
         newUserDTO.setPassword("teste1");
 
         mockMvc.perform(post("/user/new")
@@ -55,7 +55,7 @@ class UserControllerTest {
         UserDTO.Request.Register newUserDTO = new UserDTO.Request.Register();
         newUserDTO.setEmail("john.doe@example.com");
         newUserDTO.setName("João");
-        newUserDTO.setRole(Role.STUDENT);
+        newUserDTO.setRole(Role.STUDENT.toString());
         newUserDTO.setPassword("teste1");
 
         mockMvc.perform(post("/user/new")
@@ -70,7 +70,7 @@ class UserControllerTest {
         UserDTO.Request.Register newUserDTO = new UserDTO.Request.Register();
         newUserDTO.setEmail("caio.bugorin@alura.com.br");
         newUserDTO.setName("Caio Bugorin");
-        newUserDTO.setRole(Role.STUDENT);
+        newUserDTO.setRole(Role.STUDENT.toString());
         newUserDTO.setPassword("teste1");
 
         mockMvc.perform(post("/user/new")

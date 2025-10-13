@@ -30,8 +30,9 @@ public class UserDTO {
             @NotBlank(message = MSG_NOT_NULL_OR_EMPTY)
             private String email;
 
+            @Pattern(regexp = "STUDENT|INSTRUCTOR", message = "Role must be STUDENT or INSTRUCTOR")
             @NotNull(message = MSG_NOT_NULL)
-            private Role role;
+            private String role;
 
             @NotBlank(message = MSG_NOT_NULL_OR_EMPTY)
             @Pattern(regexp = "^$|^.{6}$", message = "Password must be exactly 6 characters long if provided")

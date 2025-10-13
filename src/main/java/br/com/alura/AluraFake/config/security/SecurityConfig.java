@@ -31,6 +31,7 @@ public class SecurityConfig {
                 .csrf(AbstractHttpConfigurer::disable)
                 .authorizeHttpRequests(auth -> auth
                         .requestMatchers(POST, "/login").permitAll()
+                        .requestMatchers(POST, "/user/new").permitAll()
                         .requestMatchers("/instructor/**").hasAuthority("INSTRUCTOR")
                         .requestMatchers("/task/**").hasAuthority("INSTRUCTOR")
                         .requestMatchers("/course/new").hasAuthority("INSTRUCTOR")

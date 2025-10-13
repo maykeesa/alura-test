@@ -31,6 +31,13 @@ public class User {
     @CreationTimestamp
     private LocalDateTime createdAt = LocalDateTime.now();
 
+    public User(String name, String email, Role role, String password) {
+        this.name = name;
+        this.role = role;
+        this.email = email;
+        this.password = password;
+    }
+
     public User(String name, String email, Role role) {
         this.name = name;
         this.role = role;

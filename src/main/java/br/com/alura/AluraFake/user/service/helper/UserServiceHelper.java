@@ -6,7 +6,6 @@ import br.com.alura.AluraFake.course.enums.Status;
 import br.com.alura.AluraFake.course.model.Course;
 import br.com.alura.AluraFake.user.model.User;
 import br.com.alura.AluraFake.user.repository.UserRepository;
-import jakarta.persistence.EntityNotFoundException;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Component;
 
@@ -35,7 +34,7 @@ public class UserServiceHelper {
 
     public User findValidUserByEmail(String email, String password){
         User user = userRepository.findByEmail(email)
-                .orElseThrow(() -> new EntityNotFoundException(("Invalid email or password.")));
+                .orElseThrow(() -> new ServiceException(("Invalid email or password.")));
 
         if(Objects.nonNull(password) && !user.getPassword().equals(password)){
             throw new ServiceException("Invalid email or password.");

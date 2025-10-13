@@ -1,5 +1,5 @@
 INSERT INTO User (id, name, email, role, password)
-VALUES (1, 'John Doe', 'john.doe@example.com', 'INSTRUCTOR', 'securePass123');
+VALUES (1, 'John Doe', 'john.doe@example.com', 'INSTRUCTOR', 'teste123');
 
 INSERT INTO Course (id, title, description, instructor_id, status, publishedAt)
 VALUES (
